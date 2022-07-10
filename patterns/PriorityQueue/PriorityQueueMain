@@ -12,6 +12,7 @@ PriorityQueue<Integer> pq = new PriorityQueue<Integer>((a,b) -> (b-a));
 
 
 253 : Meeting Rooms II
+===========================
 https://leetcode.com/problems/meeting-rooms-ii/
 
 Simple logic: the meeting which has early time should start early . Hence we will first sort the input on the basis of start time , then we will have to see the meeting which end first so we use priority queue and pq peek should give the meeting which gets finish early .
@@ -36,7 +37,7 @@ class Solution {
 
 
 215 : Kth largest element in an array
-
+======================================
 	//QuickSelect is the optimized approach for this problem
     //https://leetcode.com/problems/kth-largest-element-in-an-array/discuss/2180600/A-Guide-to-Quick-Select-or-JAVA
     
@@ -65,4 +66,55 @@ class Solution {
 
         // output
         return heap.poll();   
+    }
+	
+	
+973 : K closest points to origin
+https://leetcode.com/problems/k-closest-points-to-origin/
+
+//PQ approach is one of the solutions
+// Optimized is quick select
+    public int[][] kClosest(int[][] points, int k) {
+        int[][] result = new int[k][2];
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((p,q) -> (
+            (p[0]*p[0]+p[1]*p[1]) - (q[0]*q[0]+q[1]*q[1])
+        ));
+        for(int[] n : points){
+            pq.add(n);
+        }   
+        for(int i=0;i<k;i++){
+            int[] r = pq.poll();
+            result[i][0]=r[0];
+            result[i][1]=r[1];
+        }
+        return result;                                                 
+    }
+	
+
+347 : Top K frequent elements
+=================================
+https://leetcode.com/problems/top-k-frequent-elements/
+
+public int[] topKFrequent(int[] nums, int k) {
+        
+        //Approach 1 : TC : O(n), SC : O(n)
+        Map<Integer,Integer> freqMap = new HashMap<Integer,Integer>();
+        for (int n : nums){
+            freqMap.put(n, freqMap.getOrDefault(n,0)+1);
+        }
+        
+        List<Integer>[] buckets = new List[nums.length + 1];
+        for(Integer i : freqMap.keySet()){
+            Integer freq = freqMap.get(i);
+            if(buckets[freq]==null)
+                buckets[freq]=new ArrayList<Integer>();
+            buckets[freq].add(i);
+        }
+        List<Integer> result = new ArrayList<Integer>();
+        for (int j=buckets.length-1;j>=0 && result.size()<k;j--){
+            if(buckets[j]!=null){
+                result.addAll(buckets[j]);
+            }
+        }
+        return result.stream().mapToInt(i -> i).toArray();
     }
