@@ -10,6 +10,7 @@ PriorityQueue<Integer> heap = new PriorityQueue<Integer>((n1, n2) -> n1 - n2);
 For max heap
 PriorityQueue<Integer> pq = new PriorityQueue<Integer>((a,b) -> (b-a));
 
+Note : Add min_heapify and max_heapify functions for actual PQ implementations
 
 253 : Meeting Rooms II
 ===========================
